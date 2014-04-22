@@ -3,7 +3,7 @@
   'use strict';
   var JSSavior = {
     version: 0.1,
-    serviceUrl: 'http://jssavior.com/api/send/',
+    serviceUrl: window.location.protocol + '//jssavior.com/api/send/',
 
     init: function() {
       var _this = this;
