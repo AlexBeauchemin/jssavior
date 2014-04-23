@@ -4,6 +4,7 @@
   var JSSavior = {
     version: 0.1,
     serviceUrl: window.location.protocol + '//jssavior.com/api/send/',
+    keepConsoleErrors: true,
 
     init: function() {
       var _this = this;
@@ -40,7 +41,7 @@
 
         _this.postErrorData(data);
 
-        return true;
+        return !_this.keepConsoleErrors;
       };
     },
 
