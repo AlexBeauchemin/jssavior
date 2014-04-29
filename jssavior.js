@@ -3,67 +3,26 @@
   'use strict';
   var JSSavior = {
     version: 0.1,
-    serviceUrl: window.location.protocol + '//jssavior.com/api/send/',
-    keepConsoleErrors: true,
+    config: {
+      id: '',
+      keepConsoleErrors: true,
+      url: window.location.protocol + '//jssavior.com/api/send/'
+    },
 
     init: function() {
       var _this = this;
 
-      if (typeof console === "undefined") {
-        console = {
-          log: function (msg) { }
-        };
-      }
+      _this.setConfig();
 
-      window.onerror = function(msg,file,line, column, errorObj) {
-        //Skip crossdomain error in old browsers if onerror is called from another domain
-        if (msg.indexOf('Script error.') > -1) {
-          return;
-        }
-
-        if (!JSSaviorConfig) {
-          console.log('JSSavior: You need to provide an account id');
-          return;
-        }
-
-        var data = {
-          domain: location.hostname,
+      window.onerror = function(message,file,line, column, errorObj) {
+        return _this.handleError({
+          column: column,
+          errorObj: errorObj,
           file: file,
           line: line,
-          message: msg,
-          project: JSSaviorConfig.projectId,
-          userAgent: navigator.userAgent,
-          version: _this.version
-        };
-
-        if (column) data.column = column;
-        if (errorObj && errorObj.message && errorObj.stack) data.stack = {message: errorObj.message, stack: errorObj.stack};
-
-        _this.postErrorData(data);
-
-        return !_this.keepConsoleErrors;
+          message: message
+        });
       };
-    },
-
-    postErrorData: function(data) {
-      var _this = this;
-      if(!_this.serviceUrl) return;
-
-      //data.clientInfo = _this.getClientInfo();
-      data.clientInfo = {};
-
-      var xmlhttp;
-      if (window.XMLHttpRequest) xmlhttp = new XMLHttpRequest();
-      else xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-
-      xmlhttp.open("POST", _this.serviceUrl, true);
-      xmlhttp.setRequestHeader('Content-Type', 'application/json');
-
-      xmlhttp.onreadystatechange = function() {
-        _this.handleResult(xmlhttp);
-      };
-
-      xmlhttp.send(JSON.stringify(data));
     },
 
 //    getClientInfo: function() {
@@ -77,6 +36,38 @@
 //
 //      return JSON.parse(xmlhttp.responseText);
 //    },
+
+    handleError: function(data) {
+      var _this = this;
+
+      if (!this.config.id) {
+        return !_this.config.keepConsoleErrors;
+      }
+
+      //Skip crossdomain error in old browsers if onerror is called from another domain
+      if (data.message.indexOf('Script error.') > -1) {
+        return !_this.config.keepConsoleErrors;
+      }
+
+      data.domain = location.hostname;
+      data.project = _this.config.id;
+      data.url = document.URL;
+      data.userAgent = navigator.userAgent;
+      data.version = _this.version;
+
+
+      if (data.errorObj && data.errorObj.message && data.errorObj.stack) {
+        data.stack = {
+          message: data.errorObj.message,
+          stack: data.errorObj.stack
+        };
+        delete data.errorObj;
+      }
+
+      _this.postErrorData(data);
+
+      return !_this.config.keepConsoleErrors;
+    },
 
     handleResult: function(xmlhttp) {
       try {
@@ -96,6 +87,49 @@
         }
       }
       catch (err) {}
+    },
+
+    postErrorData: function(data) {
+      var _this = this;
+      if(!_this.config.url) return;
+
+      //data.clientInfo = _this.getClientInfo();
+      data.clientInfo = {};
+
+      var xmlhttp;
+      if (window.XMLHttpRequest) xmlhttp = new XMLHttpRequest();
+      else xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+
+      xmlhttp.open("POST", _this.config.url, true);
+      xmlhttp.setRequestHeader('Content-Type', 'application/json');
+
+      xmlhttp.onreadystatechange = function() {
+        _this.handleResult(xmlhttp);
+      };
+
+      xmlhttp.send(JSON.stringify(data));
+    },
+
+    setConfig: function() {
+      var _this = this;
+
+      if (typeof console === "undefined") {
+        console = {
+          log: function (msg) { }
+        };
+      }
+
+      if (JSSaviorConfig) {
+        if (typeof JSSaviorConfig.keepConsoleErrors != "undefined") {
+          _this.config.keepConsoleErrors = JSSaviorConfig.keepConsoleErrors;
+        }
+
+        if (typeof JSSaviorConfig.projectId != "undefined") {
+          _this.config.id = JSSaviorConfig.projectId;
+        }
+      }
+
+      if (!this.config.id) console.log('JSSavior: You need to provide an account id');
     }
   };
 
