@@ -1,7 +1,7 @@
 //Use tracekit to include complete stacktrace?
-(function($){
+(function(window){
   'use strict';
-  var JSSavior = {
+  window.JSSavior = {
     version: 0.1,
     config: {
       id: '',
@@ -134,4 +134,4 @@
   };
 
   JSSavior.init();
-})(window.jQuery);
+})(window);
