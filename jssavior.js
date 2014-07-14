@@ -2,17 +2,25 @@
 (function(window){
   'use strict';
   window.JSSavior = {
-    version: 0.1,
+    version: 0.2,
     config: {
       id: '',
       keepConsoleErrors: true,
       url: window.location.protocol + '//jssavior.com/api/send/'
+      //url: window.location.protocol + '//localhost:3000/api/send/'
     },
 
     init: function() {
       var _this = this;
 
       _this.setConfig();
+
+      // If loaded async, send any errors saved in the queue (happened before jssavior finished loading)
+      if (JSSaviorConfig && JSSaviorConfig.errorQueue) {
+        for (var index = 0; index < JSSaviorConfig.errorQueue.length; ++index) {
+          _this.handleError(JSSaviorConfig.errorQueue[index]);
+        }
+      }
 
       window.onerror = function(message,file,line, column, errorObj) {
         return _this.handleError({
