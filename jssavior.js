@@ -4,6 +4,7 @@
   window.JSSavior = {
     version: 0.2,
     config: {
+      context: null,
       id: '',
       keepConsoleErrors: true,
       url: window.location.protocol + '//jssavior.com/api/send/'
@@ -62,7 +63,7 @@
       data.url = document.URL;
       data.userAgent = navigator.userAgent;
       data.version = _this.version;
-
+      if (_this.config.context) data.context = _this.config.context;
 
       if (data.errorObj && data.errorObj.message && data.errorObj.stack) {
         data.stack = {
@@ -134,6 +135,10 @@
 
         if (typeof JSSaviorConfig.projectId != "undefined") {
           _this.config.id = JSSaviorConfig.projectId;
+        }
+
+        if (typeof JSSaviorConfig.context != "undefined") {
+          _this.config.context = JSSaviorConfig.context;
         }
       }
 
