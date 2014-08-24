@@ -2,7 +2,7 @@
 (function(window){
   'use strict';
   window.JSSavior = {
-    version: 0.2,
+    version: 1.1,
     config: {
       context: null,
       id: '',
@@ -143,6 +143,18 @@
       }
 
       if (!this.config.id) console.log('JSSavior: You need to provide an account id');
+    },
+
+    test: function (msg) {
+      var _this = this;
+
+      _this.handleError({
+        column: 0,
+        errorObj: false,
+        file: 'test.js',
+        line: 0,
+        message: msg
+      });
     }
   };
 
