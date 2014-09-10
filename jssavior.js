@@ -2,7 +2,7 @@
 (function(window){
   'use strict';
   window.JSSavior = {
-    version: 1.1,
+    version: "1.2.1",
     config: {
       context: null,
       id: '',
@@ -139,6 +139,10 @@
 
         if (typeof JSSaviorConfig.context != "undefined") {
           _this.config.context = JSSaviorConfig.context;
+        }
+
+        if (typeof JSSaviorConfig.apiUrl != "undefined") {
+          _this.config.url = JSSaviorConfig.apiUrl;
         }
       }
 
