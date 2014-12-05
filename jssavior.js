@@ -54,7 +54,7 @@
       }
 
       //Skip crossdomain error in old browsers if onerror is called from another domain
-      if (data.message.indexOf('Script error.') > -1) {
+      if (data.message && data.message.indexOf('Script error.') > -1) {
         return !_this.config.keepConsoleErrors;
       }
 
