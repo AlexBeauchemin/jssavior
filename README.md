@@ -1,7 +1,7 @@
 JSSavior
 ========
 
-JSSavior is a **free** (and [opensource](https://github.com/AlexBeauchemin/jssavior-platform)) javascript error logging platform. Simply add a javascript file to your project and javascript errors on your site will be logged in the [JSSavior](http://jssavior.com) platform.
+Simply add a javascript file to your project and javascript errors on your site will be logged on [jssavior.com](http://jssavior.com).
 
 How to use
 ================

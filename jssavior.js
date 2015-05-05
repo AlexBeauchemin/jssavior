@@ -2,7 +2,7 @@
 (function(window){
   'use strict';
   window.JSSavior = {
-    version: "1.2.1",
+    version: "1.2.2",
     config: {
       context: null,
       id: '',
@@ -105,6 +105,21 @@
       //data.clientInfo = _this.getClientInfo();
       data.clientInfo = {};
 
+      if(!!window.jQuery) {
+        $.ajax({
+          contentType: 'application/json',
+          data: JSON.stringify(data),
+          type: 'POST',
+          url: _this.config.url
+        }).done(function(data) {
+          _this.handleResult(data);
+        }).fail(function() {
+          console.log('JSSavior: jQuery failed to send error request to server');
+        });
+
+        return;
+      }
+
       var xmlhttp;
       if (window.XMLHttpRequest) xmlhttp = new XMLHttpRequest();
       else xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
@@ -122,8 +137,8 @@
     setConfig: function() {
       var _this = this;
 
-      if (typeof console === "undefined") {
-        console = {
+      if (typeof window.console === "undefined") {
+        window.console = {
           log: function (msg) { }
         };
       }
