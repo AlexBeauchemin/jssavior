@@ -6,9 +6,9 @@ Simply add a javascript file to your project and javascript errors on your site 
 How to use
 ================
 
-[Complete doc available on jssavior.com/setup](http://jssavior.com/setup)
+[Complete doc available on jssavior.com/setup](http://www.jssavior.com/setup)
 
-1) Create an account and log in on [jssavior.com](http://jssavior.com)
+1) Create an account and log in on [jssavior.com](http://www.jssavior.com)
 
 2) Create a project
 
@@ -44,4 +44,4 @@ window.onerror = function(message,file,line, column, errorObj) {
 
 6) That's it! JSSavior is now ready to log your bad coding! :)
 
-[More info/options on how to use JSSavior here](http://jssavior.com/setup)
+[More info/options on how to use JSSavior here](http://www.jssavior.com/setup)
