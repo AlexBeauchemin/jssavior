@@ -2,12 +2,12 @@
 (function(window){
   'use strict';
   window.JSSavior = {
-    version: "1.2.2",
+    version: "1.2.3",
     config: {
       context: null,
       id: '',
       keepConsoleErrors: true,
-      url: window.location.protocol + '//jssavior.com/api/send/'
+      url: window.location.protocol + '//www.jssavior.com/api/send/'
       //url: window.location.protocol + '//localhost:3000/api/send/'
     },
 
